@@ -1,6 +1,7 @@
 import re
 
-test = "x = y/1+3 - array(500)"
+print("To Exit Press Q")
+
 
 #check if a string is valid according to a regex
 def valid_regex(regex,string):
@@ -59,16 +60,27 @@ class token:
             self.token_type = 'IDENTIFIER'
             self.error = False
 
-#remove spaces
-splitted = test.split()
 
-tokens = []
-for s in splitted:
-    # split by words
-    regex_splitted = re.split(split_regex, s)
-    for r in regex_splitted:
-        if r != '':
-            tokens.append(token(r))
-            tokens[-1].find_type()
-            print(tokens[-1].error, tokens[-1].value, tokens[-1].token_type)
 
+test = ""
+
+while test!="q":
+    test = input("Please Enter the code: ")
+
+    # remove spaces
+    splitted = test.split()
+
+    tokens = []
+    for s in splitted:
+        # split by words
+        regex_splitted = re.split(split_regex, s)
+        filter_obj = filter(lambda x: x != "", regex_splitted)
+        regex_splitted = list(filter_obj)
+        if (regex_splitted == [':', '=']):
+            regex_splitted = [':=']
+        # print(regex_splitted)
+        for r in regex_splitted:
+            if r != '':
+                tokens.append(token(r))
+                tokens[-1].find_type()
+                print(tokens[-1].value, ',', tokens[-1].token_type)
