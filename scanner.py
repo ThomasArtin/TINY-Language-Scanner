@@ -1,5 +1,5 @@
 import re
-
+import os
 print("To Exit Press Q")
 
 
@@ -49,28 +49,29 @@ class token:
             if (self.value == token_types[token_type]):
                 self.token_type = token_type
                 self.error = False
+                return 0
         # check if number
         found, extracted_regex = valid_regex(number_regex, self.value)
         if (found == True):
             self.token_type = 'NUMBER'
             self.error = False
+            return 0
         # check if identifer
         found, extracted_regex = valid_regex(identifier_regex, self.value)
         if (found == True):
             self.token_type = 'IDENTIFIER'
             self.error = False
+            return 0
 
 
+#tests is a list of lines
+inputxt = open("input.txt", "r")
+tests = inputxt.readlines()
+# remove spaces
 
-test = ""
-
-while test!="q":
-    test = input("Please Enter the code: ")
-
-    # remove spaces
+tokens = []
+for test in tests:
     splitted = test.split()
-
-    tokens = []
     for s in splitted:
         # split by words
         regex_splitted = re.split(split_regex, s)
@@ -83,4 +84,4 @@ while test!="q":
             if r != '':
                 tokens.append(token(r))
                 tokens[-1].find_type()
-                print(tokens[-1].value, ',', tokens[-1].token_type)
+                print('{},{}'.format( tokens[-1].value, tokens[-1].token_type))
